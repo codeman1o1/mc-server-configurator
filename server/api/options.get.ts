@@ -1,8 +1,8 @@
-import si from "systeminformation"
+import { totalmem } from "os"
 
 export default defineEventHandler(async (_event) => {
-  const memory = await si.mem()
+  const memory = totalmem()
   return {
-    memory: Math.floor(memory.total / 1024 / 1024) /* convert to MB */
+    memory: Math.floor(memory / 1024 / 1024) /* convert to MB */
   }
 })
