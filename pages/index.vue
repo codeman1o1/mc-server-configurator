@@ -213,6 +213,14 @@
                   }).format(Math.round(advancedState.memory))
             }}
           </p>
+          <!--  -->
+        </UFormGroup>
+        <UFormGroup label="Server Icon" name="servericon">
+          <UInput
+            type="file"
+            icon="i-heroicons-photo-16-solid"
+            accept="image/*"
+          />
         </UFormGroup>
         <div class="space-y-2">
           <UButton type="button" block @click="stage--">Back</UButton>
