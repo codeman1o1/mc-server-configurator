@@ -102,7 +102,7 @@
             show-create-option-when="always"
           />
         </UFormGroup>
-        <UFormGroup label="Seed" name="seed">
+        <UFormGroup label="Seed" name="seed" hint="Optional">
           <UInput
             v-model="worldState.seed"
             placeholder="Enter seed (leave empty for random)"
