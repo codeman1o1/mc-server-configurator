@@ -189,6 +189,12 @@
             placeholder="Enter port number"
           />
         </UFormGroup>
+        <UFormGroup label="Bind path" name="binding">
+          <UInput
+            v-model="advancedState.binding"
+            placeholder="Enter a valid path"
+          />
+        </UFormGroup>
         <UFormGroup label="Available Memory" name="memory">
           <URange
             v-model="advancedState.memory"
@@ -311,8 +317,9 @@ const worldSchema = z.object({
   seed: z.string().optional()
 })
 const advancedSchema = z.object({
-  memory: z.number().min(0),
-  port: z.number().min(1024).max(65535)
+  port: z.number().min(1024).max(65535),
+  binding: z.string().optional(),
+  memory: z.number().min(0)
 })
 
 const generalState = reactive({
@@ -339,6 +346,7 @@ const worldState = reactive({
 })
 const advancedState = reactive({
   port: 25565,
+  binding: undefined,
   memory: 0
 })
 
