@@ -1,5 +1,5 @@
 import Docker from "dockerode"
-import { isAbsolute, normalize } from "pathe"
+import { normalize } from "pathe"
 
 const docker = new Docker({
   socketPath:
@@ -31,14 +31,6 @@ export default defineEventHandler(async (event) => {
     enable_command_blocks
   } = gamerules
   const { port, binding, memory } = advanced
-
-  // Safe checks
-  if (port < 1024 || port > 65535)
-    throw createError({ status: 400, statusMessage: "Invalid port" })
-  if (memory < 0)
-    throw createError({ status: 400, statusMessage: "Invalid memory" })
-  if (binding && binding.includes(":") && !isAbsolute(binding))
-    throw createError({ status: 400, statusMessage: "Invalid binding" })
 
   await docker.pull("itzg/minecraft-server")
   const container = await docker.createContainer({
