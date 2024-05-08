@@ -192,6 +192,7 @@
         <UFormGroup label="Bind path" name="binding" hint="Optional">
           <UInput
             v-model="advancedState.binding"
+            icon="i-heroicons-folder"
             placeholder="Enter a valid path"
           />
         </UFormGroup>
