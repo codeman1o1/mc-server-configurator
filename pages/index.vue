@@ -233,6 +233,7 @@
 </template>
 
 <script setup lang="ts">
+import { isAbsolute } from "pathe"
 import { z } from "zod"
 
 const toast = useToast()
@@ -319,7 +320,10 @@ const worldSchema = z.object({
 })
 const advancedSchema = z.object({
   port: z.number().min(1024).max(65535),
-  binding: z.string().optional(),
+  binding: z
+    .string()
+    .optional()
+    .refine((value) => (value ? isAbsolute(value) : true)),
   memory: z.number().min(0)
 })
 

@@ -1,5 +1,5 @@
 import Docker from "dockerode"
-import { isAbsolute, normalize } from "path"
+import { isAbsolute, normalize } from "pathe"
 
 const docker = new Docker({
   socketPath:
