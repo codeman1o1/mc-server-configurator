@@ -323,7 +323,9 @@ const advancedSchema = z.object({
   binding: z
     .string()
     .optional()
-    .refine((value) => (value ? isAbsolute(value) : true)),
+    .refine((value) => (value ? isAbsolute(value) : true), {
+      message: "Path must be absolute"
+    }),
   memory: z.number().min(0)
 })
 
