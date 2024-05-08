@@ -189,6 +189,13 @@
             placeholder="Enter port number"
           />
         </UFormGroup>
+        <UFormGroup label="Data location" name="binding" hint="Optional">
+          <UInput
+            v-model="advancedState.binding"
+            icon="i-heroicons-folder"
+            placeholder="Enter a valid path"
+          />
+        </UFormGroup>
         <UFormGroup label="Available Memory" name="memory">
           <URange
             v-model="advancedState.memory"
@@ -226,6 +233,7 @@
 </template>
 
 <script setup lang="ts">
+import { isAbsolute } from "pathe"
 import { z } from "zod"
 
 const toast = useToast()
@@ -311,8 +319,17 @@ const worldSchema = z.object({
   seed: z.string().optional()
 })
 const advancedSchema = z.object({
-  memory: z.number().min(0),
-  port: z.number().min(1024).max(65535)
+  port: z.number().min(1024).max(65535),
+  binding: z
+    .string()
+    .optional()
+    .refine((value) => (value ? !value.includes(":") : true), {
+      message: "Path cannot contain ':'"
+    })
+    .refine((value) => (value ? isAbsolute(value) : true), {
+      message: "Path must be absolute"
+    }),
+  memory: z.number().min(0)
 })
 
 const generalState = reactive({
@@ -339,6 +356,7 @@ const worldState = reactive({
 })
 const advancedState = reactive({
   port: 25565,
+  binding: undefined,
   memory: 0
 })
 

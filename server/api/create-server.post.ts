@@ -1,4 +1,5 @@
 import Docker from "dockerode"
+import { normalize } from "pathe"
 
 const docker = new Docker({
   socketPath:
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
     spawn_protection,
     enable_command_blocks
   } = gamerules
-  const { port, memory } = advanced
+  const { port, binding, memory } = advanced
 
   await docker.pull("itzg/minecraft-server")
   const container = await docker.createContainer({
@@ -65,6 +66,7 @@ export default defineEventHandler(async (event) => {
       PortBindings: {
         "25565/tcp": [{ HostPort: port.toString() }]
       },
+      ...(binding ? { Binds: [`${normalize(binding)}:/data`] } : {}),
       Memory: memory * 1024 * 1024 /* convert to bytes */
     }
   })
