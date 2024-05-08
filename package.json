@@ -16,7 +16,6 @@
     "dockerode": "^4.0.2",
     "nuxt": "^3.11.2",
     "pathe": "^1.1.2",
-    "systeminformation": "^5.22.8",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "zod": "^3.23.6"

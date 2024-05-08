@@ -1,5 +1,6 @@
 <template>
   <Head>
+    <Link rel="icon" href="/favicon.png" />
     <Title>
       {{ minceraft ? "Minceraft" : "Minecraft" }} Server Configurator
     </Title>
