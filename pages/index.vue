@@ -323,6 +323,9 @@ const advancedSchema = z.object({
   binding: z
     .string()
     .optional()
+    .refine((value) => (value ? !value.includes(":") : true), {
+      message: "Path cannot contain ':'"
+    })
     .refine((value) => (value ? isAbsolute(value) : true), {
       message: "Path must be absolute"
     }),
@@ -358,6 +361,7 @@ const advancedState = reactive({
 })
 
 async function createServer() {
+  return
   loading.value = true
   const response = await $fetch("/api/create-server", {
     method: "POST",
