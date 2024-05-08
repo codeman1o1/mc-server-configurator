@@ -361,7 +361,6 @@ const advancedState = reactive({
 })
 
 async function createServer() {
-  return
   loading.value = true
   const response = await $fetch("/api/create-server", {
     method: "POST",
