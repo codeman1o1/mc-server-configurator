@@ -9,6 +9,8 @@ const docker = new Docker({
       : "/var/run/docker.sock")
 })
 
+const imageName = "itzg/minecraft-server"
+
 export default defineEventHandler(async (event) => {
   const { general, world, advanced } = await readBody(event)
   const { server_name, platform, version } = general
@@ -32,10 +34,29 @@ export default defineEventHandler(async (event) => {
   } = gamerules
   const { port, binding, memory } = advanced
 
-  await docker.pull("itzg/minecraft-server")
+  /*
+    Wait until the image is pulled
+    If we don't do this madness, the code will continue even when the image is ready yet
+    See https://github.com/apocas/dockerode/issues/357
+  */
+  await new Promise((resolve, reject) => {
+    docker.pull(
+      imageName,
+      (err: Error | null, stream: NodeJS.ReadableStream) => {
+        docker.modem.followProgress(stream, (err) => {
+          if (!err) {
+            resolve(true)
+            return
+          }
+          reject(err)
+        })
+      }
+    )
+  })
+
   const container = await docker.createContainer({
     name: (server_name as string).toLowerCase().replace(/\s/g, "-"),
-    Image: "itzg/minecraft-server",
+    Image: imageName,
     OpenStdin: true,
     Tty: true,
     Env: [
